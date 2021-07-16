@@ -9,6 +9,9 @@ export var jump_speed := 500
 var velocity := Vector2.ZERO
 var lDirection = true
 
+func _ready():
+		transform *= Transform2D.FLIP_X
+
 func _physics_process(delta: float) -> void:
 
 	velocity.x = 0
@@ -30,10 +33,6 @@ func _process(delta: float) -> void:
 		change_animation()
 
 func change_animation():
-#	if velocity.x > 0:
-#		$AnimatedSprite.flip_h = false
-#	elif velocity.x < 0:
-#		$AnimatedSprite.flip_h = true
 
 	if velocity.y < 0:
 		$AnimatedSprite.play("jump")
@@ -44,25 +43,17 @@ func change_animation():
 			$AnimatedSprite.play("idle")
 			
 			
-	if Input.is_action_just_pressed("move_left") and lDirection == true:
-		transform *= Transform2D.FLIP_X
-		lDirection = false
-		
-	if Input.is_action_just_pressed("move_right") and lDirection == false:
+	if Input.is_action_just_pressed("move_left2") and lDirection == false:
 		transform *= Transform2D.FLIP_X
 		lDirection = true
 		
-#	if Input.is_action_just_pressed("move_right2") and lDirection == false:
-#		$WeaponSprite.position *= Vector2 (-1,1)
-#		$WeaponSprite.flip_h = false
-#		lDirection = true
-#
-#	if Input.is_action_just_pressed("move_left2") and lDirection == true:
-#		$WeaponSprite.position *= Vector2 (-1,1)
-#		$WeaponSprite.flip_h = true
-#		lDirection = false
-#
-#func _on_WeaponArea_body_entered(body):
-#	if body.name == "Player1":
-#		get_tree().paused = true
-#		print("Player 2 wins bitches")
+	if Input.is_action_just_pressed("move_right2") and lDirection == true:
+		transform *= Transform2D.FLIP_X
+		lDirection = false
+
+
+func _on_WeaponArea_body_entered(body):
+	
+	if body.name == "Player":
+		get_tree().paused = true
+		print("Player 2 wins bitches")

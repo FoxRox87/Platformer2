@@ -31,11 +31,6 @@ func _process(delta: float) -> void:
 		change_animation()
 
 func change_animation():
-#	if velocity.x > 0:
-#		$AnimatedSprite.flip_h = false
-#
-#	elif velocity.x < 0:
-#		$AnimatedSprite.flip_h = true
 		
 	
 	if velocity.y < 0:
@@ -49,22 +44,14 @@ func change_animation():
 	if Input.is_action_just_pressed("move_right") and rDirection == false:
 		transform *= Transform2D.FLIP_X
 		rDirection = true
-		#$WeaponSprite.position *= Vector2 (-1,1)
-#		$WeaponArea.scale *= Vector2 (-1,1)
-#		$WeaponSprite.flip_h = false
 
-#
 	if Input.is_action_just_pressed("move_left") and rDirection == true:
 		transform *= Transform2D.FLIP_X
 		rDirection = false
-#		$WeaponSprite.position *= Vector2 (-1,1)
-#		$WeaponArea.scale *= Vector2 (-1,1)
-#		$WeaponSprite.flip_h = true
-
-#
 		
 func _on_WeaponArea_body_entered(body):
-	if body.name == "Player2":
+
+	if body.name == "Player":
 		get_tree().paused = true
 		print("Player 1 wins bitches")
 
