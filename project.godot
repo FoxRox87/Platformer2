@@ -14,6 +14,10 @@ config/name="Retro Platformer"
 run/main_scene="res://Levels/Level01.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Events="*res://Autoloads/Events.gd"
+
 [display]
 
 window/size/width=480

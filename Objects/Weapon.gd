@@ -1,0 +1,7 @@
+extends Area2D
+
+
+
+func _on_Weapon_body_entered(body):
+	if body.name == "Player":
+		get_tree().paused = true
