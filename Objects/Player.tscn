@@ -1,9 +1,8 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/images/Clean-Retro-Lines-Player-Plain.png" type="Texture" id=1]
 [ext_resource path="res://Objects/Player.gd" type="Script" id=2]
 [ext_resource path="res://Assets/images/spear.png" type="Texture" id=3]
-[ext_resource path="res://Objects/WeaponArea.gd" type="Script" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -59,7 +58,7 @@ animations = [ {
 extents = Vector2( 4.005, 7 )
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 0.987609, 0.501785 )
+extents = Vector2( 1.59858, 0.901929 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -78,13 +77,15 @@ shape = SubResource( 10 )
 position = Vector2( 3.91939, 1.5631 )
 texture = ExtResource( 3 )
 
-[node name="WeaponArea" type="Area2D" parent="."]
+[node name="WeaponArea" type="Area2D" parent="." groups=[
+"Weapon",
+]]
 position = Vector2( 3.91939, 2.68878 )
-script = ExtResource( 4 )
 
 [node name="CollisionWeapon" type="CollisionShape2D" parent="WeaponArea"]
 position = Vector2( 3.98415, -1.65532 )
 shape = SubResource( 11 )
 
 [connection signal="area_entered" from="WeaponArea" to="WeaponArea" method="_on_WeaponArea_area_entered"]
+[connection signal="area_entered" from="WeaponArea" to="." method="_on_WeaponArea_area_entered"]
 [connection signal="body_entered" from="WeaponArea" to="." method="_on_WeaponArea_body_entered"]
