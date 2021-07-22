@@ -1,9 +1,11 @@
 extends KinematicBody2D
 
-
-export var move_speed := 100
 export var gravity := 2000
 export var jump_speed := 500
+export var max_speed := 200
+export var acceleration := 100
+export var deacceleration := 50
+export var push_back := Vector2 (500,150)
 
 
 var velocity := Vector2.ZERO
@@ -14,12 +16,15 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 
-	velocity.x = 0
-
-	if Input.is_action_pressed("move_right2"):
-		velocity.x += move_speed
-	if Input.is_action_pressed("move_left2"):
-		velocity.x -= move_speed
+	if Input.is_action_pressed("move_right2") and velocity.x < max_speed:
+		velocity.x += acceleration
+	if is_on_floor() and velocity.x > 0:
+		velocity.x -= deacceleration
+		
+	if Input.is_action_pressed("move_left2") and velocity.x > -max_speed:		
+		velocity.x -= acceleration
+	if is_on_floor() and velocity.x < 0:
+		velocity.x += deacceleration
 
 	velocity.y += gravity * delta
 
@@ -50,6 +55,7 @@ func change_animation():
 	if Input.is_action_just_pressed("move_right2") and lDirection == true:
 		transform *= Transform2D.FLIP_X
 		lDirection = false
+	
 
 
 func _on_WeaponArea_body_entered(body):
@@ -57,3 +63,13 @@ func _on_WeaponArea_body_entered(body):
 	if body.name == "Player":
 		get_tree().paused = true
 		print("Player 2 wins bitches")
+func _on_WeaponArea_area_entered(area) -> void:
+
+	if area.is_in_group("Weapon") and lDirection == true:
+			velocity += push_back
+	elif area.is_in_group("Weapon") and lDirection == false:
+			velocity -= push_back
+#		var impulse = get_transform().translated(-get_transform().origin) * push_back
+#		velocity = -impulse
+##		velocity += push_back
+			

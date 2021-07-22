@@ -6,31 +6,26 @@ export var jump_speed := 500
 export var max_speed := 200
 export var acceleration := 100
 export var deacceleration := 50
-export var push_back := Vector2 (-300,-200)
-
+export var push_back := Vector2 (500,150)
 
 var velocity := Vector2.ZERO
 var rDirection = true
 
 func _physics_process(delta: float) -> void:
 
-#	velocity.x = 0
-#
-#	if Input.is_action_pressed("move_right"):
-#		velocity.x += move_speed
-#	if Input.is_action_pressed("move_left"):
-#		velocity.x -= move_speed
+
 	if Input.is_action_pressed("move_right") and velocity.x < max_speed:
 		velocity.x += acceleration
 	if is_on_floor() and velocity.x > 0:
 		velocity.x -= deacceleration
-		
+				
 	if Input.is_action_pressed("move_left") and velocity.x > -max_speed:		
 		velocity.x -= acceleration
 	if is_on_floor() and velocity.x < 0:
 		velocity.x += deacceleration
-		
-	print(velocity.x)
+
+
+#	print(velocity.x)
 
 	velocity.y += gravity * delta
 
@@ -71,10 +66,19 @@ func _on_WeaponArea_body_entered(body) -> void:
 		print("Player 1 wins bitches")
 	
 
-
-
 func _on_WeaponArea_area_entered(area) -> void:
 	
-	if area.is_in_group("Weapon"):
-		velocity += push_back
+	if area.is_in_group("Weapon") and rDirection == true:
+			velocity -= push_back
 			
+	elif area.is_in_group("Weapon") and rDirection == false:
+			velocity += push_back
+	
+#		var impulse = get_transform().translated(-get_transform().origin) * push_back
+#		velocity = -impulse
+#		velocity = -push_back
+	print(velocity)
+			
+
+
+

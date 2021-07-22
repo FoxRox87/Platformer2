@@ -58,7 +58,7 @@ animations = [ {
 extents = Vector2( 4.005, 7 )
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 1.59858, 0.901929 )
+extents = Vector2( 4.82978, 0.901929 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -66,7 +66,6 @@ script = ExtResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 9 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="CollisionPlayer" type="CollisionShape2D" parent="."]
@@ -83,7 +82,8 @@ texture = ExtResource( 3 )
 position = Vector2( 3.91939, 2.68878 )
 
 [node name="CollisionWeapon" type="CollisionShape2D" parent="WeaponArea"]
-position = Vector2( 3.98415, -1.65532 )
+position = Vector2( 2.03521, -1.53255 )
+scale = Vector2( 0.600001, 3.4 )
 shape = SubResource( 11 )
 
 [connection signal="area_entered" from="WeaponArea" to="WeaponArea" method="_on_WeaponArea_area_entered"]
