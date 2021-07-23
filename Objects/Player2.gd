@@ -5,23 +5,24 @@ export var jump_speed := 500
 export var max_speed := 200
 export var acceleration := 100
 export var deacceleration := 50
-export var push_back := Vector2 (500,150)
+export var push_back := Vector2 (500,-250)
 
 
 var velocity := Vector2.ZERO
 var lDirection = true
+var push = true
 
 func _ready():
 		transform *= Transform2D.FLIP_X
 
 func _physics_process(delta: float) -> void:
 
-	if Input.is_action_pressed("move_right2") and velocity.x < max_speed:
+	if Input.is_action_pressed("move_right2") and velocity.x < max_speed and is_on_floor():
 		velocity.x += acceleration
 	if is_on_floor() and velocity.x > 0:
 		velocity.x -= deacceleration
 		
-	if Input.is_action_pressed("move_left2") and velocity.x > -max_speed:		
+	if Input.is_action_pressed("move_left2") and velocity.x > -max_speed and is_on_floor():		
 		velocity.x -= acceleration
 	if is_on_floor() and velocity.x < 0:
 		velocity.x += deacceleration
@@ -56,19 +57,28 @@ func change_animation():
 		transform *= Transform2D.FLIP_X
 		lDirection = false
 	
+#func _on_WeaponArea_area_entered(area) -> void:
+#
+#	if push == true and lDirection == true and area.is_in_group("Weapon"):
+#		velocity.x += push_back.x
+#		velocity.y += push_back.y
+#
+#	elif push == true and lDirection == false and area.is_in_group("Weapon"):
+#		velocity.x -= push_back.x
+#		velocity.y += push_back.y
 
-
-func _on_WeaponArea_body_entered(body):
-	
-	if body.name == "Player":
-		get_tree().paused = true
-		print("Player 2 wins bitches")
-func _on_WeaponArea_area_entered(area) -> void:
-
-	if area.is_in_group("Weapon") and lDirection == true:
-			velocity += push_back
-	elif area.is_in_group("Weapon") and lDirection == false:
-			velocity -= push_back
+#func _on_WeaponArea_body_entered(body):
+#
+#	if body.name == "Player":
+#		get_tree().paused = true
+#		print("Player 2 wins bitches")
+#func _on_WeaponArea_body_entered(body) -> void:
+#
+#	if lDirection == true and Input.is_action_pressed("push"):
+#			velocity += push_back
+#	elif lDirection == false and Input.is_action_pressed("push"):
+#			velocity -= push_back
+#
 #		var impulse = get_transform().translated(-get_transform().origin) * push_back
 #		velocity = -impulse
 ##		velocity += push_back

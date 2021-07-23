@@ -248,3 +248,9 @@ position = Vector2( 240, 128 )
 [node name="Player2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 428.045, 164.515 )
 script = ExtResource( 6 )
+gravity = 2000
+jump_speed = 500
+max_speed = 200
+acceleration = 100
+deacceleration = 50
+push_back = Vector2( 500, -250 )

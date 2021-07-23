@@ -6,24 +6,29 @@ export var jump_speed := 500
 export var max_speed := 200
 export var acceleration := 100
 export var deacceleration := 50
-export var push_back := Vector2 (500,150)
+export var push_back := Vector2 (500,-250)
 
 var velocity := Vector2.ZERO
 var rDirection = true
+signal enemy_pushed
+push = true
+
+
+
+	
 
 func _physics_process(delta: float) -> void:
 
 
-	if Input.is_action_pressed("move_right") and velocity.x < max_speed:
+	if Input.is_action_pressed("move_right") and velocity.x < max_speed and is_on_floor():
 		velocity.x += acceleration
 	if is_on_floor() and velocity.x > 0:
 		velocity.x -= deacceleration
 				
-	if Input.is_action_pressed("move_left") and velocity.x > -max_speed:		
+	if Input.is_action_pressed("move_left") and velocity.x > -max_speed and is_on_floor():		
 		velocity.x -= acceleration
 	if is_on_floor() and velocity.x < 0:
 		velocity.x += deacceleration
-
 
 #	print(velocity.x)
 
@@ -51,34 +56,48 @@ func change_animation() -> void:
 		else:
 			$AnimatedSprite.play("idle")
 			
-	if Input.is_action_just_pressed("move_right") and rDirection == false:
+	if Input.is_action_just_pressed("move_right") and rDirection == false :
 		transform *= Transform2D.FLIP_X
 		rDirection = true
 
-	if Input.is_action_just_pressed("move_left") and rDirection == true:
+	if Input.is_action_just_pressed("move_left") and rDirection == true :
 		transform *= Transform2D.FLIP_X
 		rDirection = false
-		
-func _on_WeaponArea_body_entered(body) -> void:
 
-	if body.name == "Player2":
-		get_tree().paused = true
-		print("Player 1 wins bitches")
-	
+
 
 func _on_WeaponArea_area_entered(area) -> void:
 	
-	if area.is_in_group("Weapon") and rDirection == true:
-			velocity -= push_back
+	if push == true and rDirection == true and area.is_in_group("Weapon"):
+		velocity.x -= push_back.x/2
+		velocity.y += push_back.y/2
 			
-	elif area.is_in_group("Weapon") and rDirection == false:
-			velocity += push_back
-	
-#		var impulse = get_transform().translated(-get_transform().origin) * push_back
-#		velocity = -impulse
-#		velocity = -push_back
-	print(velocity)
-			
+	elif push == true and rDirection == false and area.is_in_group("Weapon"):
+		velocity.x += push_back.x/2
+		velocity.y += push_back.y/2
+		
+func _on_WeaponArea_body_entered(body):
 
+	if push == true and rDirection == true and body.name("Player2"):
+		emit_signal(push_back)
+		
+	elif push == true and rDirection == false and body.name("Player2"):
+		emit_signal(-push_back)
+		
+#	print(velocity)
+#
+	
+	#func _on_WeaponArea_body_entered(body) -> void:
+#
+#	if body.name == "Player2":
+#		get_tree().paused = true
+#		print("Player 1 wins bitches")
+	
+#	if Input.is_action_just_pressed("change_stance") and push == true:
+#		push = false
+#
+#	if Input.is_action_just_pressed("change_stance") and push == false:
+#		push = true		
+#FUNKTIONIERT NOCH NICHT
 
 

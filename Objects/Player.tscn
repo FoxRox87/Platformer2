@@ -54,23 +54,27 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 1.30526, 2.50117 )
+
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 4.005, 7 )
 
-[sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 4.82978, 0.901929 )
-
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
+gravity = null
+jump_speed = null
+max_speed = null
+acceleration = null
+deacceleration = null
+push_back = null
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -0.314981, 0 )
 frames = SubResource( 9 )
 animation = "idle"
+frame = 1
 playing = true
-
-[node name="CollisionPlayer" type="CollisionShape2D" parent="."]
-position = Vector2( -1.05112, 1.15623 )
-shape = SubResource( 10 )
 
 [node name="WeaponSprite" type="Sprite" parent="."]
 position = Vector2( 3.91939, 1.5631 )
@@ -81,11 +85,13 @@ texture = ExtResource( 3 )
 ]]
 position = Vector2( 3.91939, 2.68878 )
 
-[node name="CollisionWeapon" type="CollisionShape2D" parent="WeaponArea"]
-position = Vector2( 2.03521, -1.53255 )
-scale = Vector2( 0.600001, 3.4 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponArea"]
+position = Vector2( 3.76563, -1.53255 )
 shape = SubResource( 11 )
 
-[connection signal="area_entered" from="WeaponArea" to="WeaponArea" method="_on_WeaponArea_area_entered"]
+[node name="CollisionPlayer" type="CollisionShape2D" parent="."]
+position = Vector2( -1.32673, 1.15623 )
+shape = SubResource( 10 )
+
 [connection signal="area_entered" from="WeaponArea" to="." method="_on_WeaponArea_area_entered"]
 [connection signal="body_entered" from="WeaponArea" to="." method="_on_WeaponArea_body_entered"]
