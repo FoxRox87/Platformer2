@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+#export var playerID := 0
 #export var move_speed := 100
 export var gravity := 2000
 export var jump_speed := 500
@@ -10,8 +11,7 @@ export var push_back := Vector2 (500,-250)
 
 var velocity := Vector2.ZERO
 var rDirection = true
-signal enemy_pushed
-push = true
+var push = true
 
 
 
@@ -19,7 +19,7 @@ push = true
 
 func _physics_process(delta: float) -> void:
 
-
+#%d"%playerID
 	if Input.is_action_pressed("move_right") and velocity.x < max_speed and is_on_floor():
 		velocity.x += acceleration
 	if is_on_floor() and velocity.x > 0:
@@ -78,11 +78,13 @@ func _on_WeaponArea_area_entered(area) -> void:
 		
 func _on_WeaponArea_body_entered(body):
 
-	if push == true and rDirection == true and body.name("Player2"):
-		emit_signal(push_back)
+	if push == true and rDirection == true and body.name == "Player2":
+		body.bounce()
 		
-	elif push == true and rDirection == false and body.name("Player2"):
-		emit_signal(-push_back)
+	elif push == true and rDirection == false and body.name == "Player2":
+
+			velocity.x += push_back.x
+			velocity.y += push_back.y
 		
 #	print(velocity)
 #

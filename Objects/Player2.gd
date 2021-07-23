@@ -38,6 +38,14 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 		change_animation()
 
+func bounce():
+	if push == true and lDirection == true:
+		velocity.x += push_back.x
+		velocity.y += push_back.y
+	elif push == true and lDirection == false:
+		velocity.x -= push_back.x
+		velocity.y += push_back.y
+	
 func change_animation():
 
 	if velocity.y < 0:
