@@ -54,7 +54,7 @@ animations = [ {
 "speed": 3.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 1.30526, 6.98777 )
 
 [sub_resource type="RectangleShape2D" id=11]
@@ -83,7 +83,7 @@ position = Vector2( 3.91939, 2.68878 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponArea"]
 position = Vector2( 3.76563, -1.53255 )
-shape = SubResource( 10 )
+shape = SubResource( 12 )
 
 [node name="CollisionPlayer" type="CollisionShape2D" parent="."]
 position = Vector2( -1.32673, 1.15623 )
