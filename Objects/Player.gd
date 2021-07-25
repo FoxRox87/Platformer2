@@ -11,7 +11,7 @@ export var playerId := 0
 
 var velocity := Vector2.ZERO
 var lDirection = true
-var push = true
+
 export var playerColor := Color(0,0,1)
 
 func _ready():
@@ -42,13 +42,12 @@ func _process(delta: float) -> void:
 		change_animation()
 
 func bounce_left():
-	if push == true:
-		velocity.x -= push_back.x
-		velocity.y += push_back.y
+	velocity.x -= push_back.x
+	velocity.y += push_back.y
+	
 func bounce_right():
-	if push == true:
-		velocity.x += push_back.x
-		velocity.y += push_back.y
+	velocity.x += push_back.x
+	velocity.y += push_back.y
 
 #	elif push == true and lDirection == false:
 #		velocity.x -= push_back.x
@@ -74,10 +73,11 @@ func change_animation():
 		lDirection = false
 
 func _on_WeaponArea_body_entered(body):
-	if push == true and body.is_in_group("player") and lDirection == false:
-		body.bounce_right()
-	if push == true and body.is_in_group("player") and lDirection == true:
-		body.bounce_left()
+	if body.is_in_group("player"):
+		if lDirection == false:
+			body.bounce_right()
+		if lDirection == true:
+			body.bounce_left()
 
 #func _on_WeaponArea_area_entered(area) -> void:
 #

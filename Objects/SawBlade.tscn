@@ -1,0 +1,3 @@
+[gd_scene format=2]
+
+[node name="SawBlade" type="StaticBody2D"]
