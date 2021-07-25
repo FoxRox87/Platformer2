@@ -13,6 +13,7 @@ var velocity := Vector2.ZERO
 var rDirection = true
 var push = true
 
+export var playerId := 0
 
 
 	
@@ -20,12 +21,12 @@ var push = true
 func _physics_process(delta: float) -> void:
 
 #%d"%playerID
-	if Input.is_action_pressed("move_right") and velocity.x < max_speed and is_on_floor():
+	if Input.is_action_pressed("move_right%d" % playerId) and velocity.x < max_speed and is_on_floor():
 		velocity.x += acceleration
 	if is_on_floor() and velocity.x > 0:
 		velocity.x -= deacceleration
 				
-	if Input.is_action_pressed("move_left") and velocity.x > -max_speed and is_on_floor():		
+	if Input.is_action_pressed("move_left%d" % playerId) and velocity.x > -max_speed and is_on_floor():		
 		velocity.x -= acceleration
 	if is_on_floor() and velocity.x < 0:
 		velocity.x += deacceleration
@@ -34,7 +35,7 @@ func _physics_process(delta: float) -> void:
 
 	velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump%d"  % playerId):
 		if is_on_floor():
 			velocity.y = -jump_speed # negative Y is up in Godot
 			
@@ -56,11 +57,11 @@ func change_animation() -> void:
 		else:
 			$AnimatedSprite.play("idle")
 			
-	if Input.is_action_just_pressed("move_right") and rDirection == false :
+	if Input.is_action_just_pressed("move_right%d" % playerId) and rDirection == false :
 		transform *= Transform2D.FLIP_X
 		rDirection = true
 
-	if Input.is_action_just_pressed("move_left") and rDirection == true :
+	if Input.is_action_just_pressed("move_left%d" % playerId) and rDirection == true :
 		transform *= Transform2D.FLIP_X
 		rDirection = false
 
@@ -78,9 +79,9 @@ func _on_WeaponArea_area_entered(area) -> void:
 		
 func _on_WeaponArea_body_entered(body):
 
-	if push == true and body.name == "Player2" and rDirection == false:
+	if push == true and body.is_in_group("player") and rDirection == false:
 		body.bounce_left()
-	if push == true and body.name == "Player2" and rDirection == true:
+	if push == true and body.is_in_group("player") and rDirection == true:
 		body.bounce_right()
 
 func bounce_left():
