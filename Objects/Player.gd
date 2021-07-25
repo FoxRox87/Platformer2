@@ -3,10 +3,10 @@ extends "../Hitable.gd"
 export var gravity := 2000
 export var jump_speed := 500
 export var max_speed := 200
-export var acceleration := 100
+export var acceleration := 500
 export var deacceleration := 50
-export var push_back := Vector2 (500,-250)
 export var aiControlled := false
+export var push_back := Vector2 (50,-50)
 
 
 export var playerId := 0
@@ -23,15 +23,18 @@ func _ready():
 			$AITimer.start()
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_pressed("move_right%d" % playerId) and velocity.x < max_speed and is_on_floor():
-		velocity.x += acceleration
+	if hp == 0:
+		return
+	
+	if Input.is_action_pressed("move_right%d" % playerId) and velocity.x < max_speed:
+		velocity.x += acceleration *delta
 	if is_on_floor() and velocity.x > 0:
-		velocity.x -= deacceleration
+		velocity.x -= deacceleration *delta
 		
-	if Input.is_action_pressed("move_left%d" % playerId) and velocity.x > -max_speed and is_on_floor():		
-		velocity.x -= acceleration
+	if Input.is_action_pressed("move_left%d" % playerId) and velocity.x > -max_speed:		
+		velocity.x -= acceleration *delta
 	if is_on_floor() and velocity.x < 0:
-		velocity.x += deacceleration
+		velocity.x += deacceleration *delta
 
 	if aiControlled and is_on_floor():
 		if lDirection and velocity.x < max_speed:
@@ -56,14 +59,9 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 		change_animation()
 
-func bounce_left():
-	velocity.x = -push_back.x
-	velocity.y = push_back.y
+func bounce(impuls):
+	velocity = impuls
 	
-func bounce_right():
-	velocity.x = push_back.x
-	velocity.y = push_back.y
-
 #	elif push == true and lDirection == false:
 #		velocity.x -= push_back.x
 #		velocity.y += push_back.y
@@ -94,9 +92,12 @@ func _on_WeaponArea_body_entered(body):
 	if body.is_in_group("player"):
 		print (lDirection)
 		if lDirection:
-			body.bounce_left()
+			body.bounce(Vector2(-push_back.x, push_back.y))
 		else:
-			body.bounce_right()
+			body.bounce(push_back)
+
+func die():
+	$AnimatedSprite.hide()
 
 
 func _on_AITimer_timeout():
