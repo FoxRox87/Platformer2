@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Objects/SawBlade.gd" type="Script" id=1]
+[ext_resource path="res://Assets/images/Sawblade.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -16,7 +17,9 @@ shape = SubResource( 1 )
 wait_time = 0.3
 autostart = true
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PoolVector2Array( 0.84251, -10.1764, 3.9677, -10.7717, 5.40629, -8.29134, 16.6669, -2.98347, 9.62282, -1.44567, 16.7165, 4.80472, 7.44015, 5.4496, 6.19999, 11.7992, 2.62834, 9.26928, -11.9063, 11.7, -9.37638, -0.30473, -9.72363, -8.29134, -4.21733, -8.68819, -0.794498, -12.9047 )
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0.0147481, 0.0884867 )
+scale = Vector2( 0.911512, 0.911512 )
+texture = ExtResource( 2 )
 
 [connection signal="timeout" from="OuchTimer" to="." method="_on_OuchTimer_timeout"]

@@ -3,7 +3,7 @@ extends Node2D
 export var damage := 10
 
 func _process(delta):
-	rotate(delta)
+	rotate(delta*10)
 
 func _on_OuchTimer_timeout():
 	for body in $OuchArea.get_overlapping_bodies():

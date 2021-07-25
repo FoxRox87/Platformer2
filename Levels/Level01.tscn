@@ -241,6 +241,7 @@ tile_data = PoolIntArray( 589825, 0, 0, 589826, 0, 4, 655361, 0, 131072, 655362,
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 169.024, 192.776 )
+bloodColor = Color( 0, 0.133333, 1, 1 )
 
 [node name="Coin" parent="." instance=ExtResource( 3 )]
 position = Vector2( 240, 128 )

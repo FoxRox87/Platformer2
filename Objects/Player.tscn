@@ -68,6 +68,7 @@ script = ExtResource( 2 )
 position = Vector2( -0.314981, 0 )
 frames = SubResource( 9 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="WeaponSprite" type="Sprite" parent="." index="2"]
