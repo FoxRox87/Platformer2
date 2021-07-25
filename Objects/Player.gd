@@ -20,6 +20,9 @@ func _ready():
 		$AnimatedSprite.set_modulate(playerColor)
 
 func _physics_process(delta: float) -> void:
+	if hp == 0:
+		return
+	
 	if Input.is_action_pressed("move_right%d" % playerId) and velocity.x < max_speed and is_on_floor():
 		velocity.x += acceleration
 	if is_on_floor() and velocity.x > 0:
@@ -82,6 +85,9 @@ func _on_WeaponArea_body_entered(body):
 			body.bounce_left(push_back)
 		else:
 			body.bounce_right(push_back)
+
+func die():
+	$AnimatedSprite.hide()
 
 #func _on_WeaponArea_area_entered(area) -> void:
 #
