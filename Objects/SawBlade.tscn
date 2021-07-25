@@ -16,4 +16,7 @@ shape = SubResource( 1 )
 wait_time = 0.3
 autostart = true
 
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PoolVector2Array( 0.84251, -10.1764, 3.9677, -10.7717, 5.40629, -8.29134, 16.6669, -2.98347, 9.62282, -1.44567, 16.7165, 4.80472, 7.44015, 5.4496, 6.19999, 11.7992, 2.62834, 9.26928, -11.9063, 11.7, -9.37638, -0.30473, -9.72363, -8.29134, -4.21733, -8.68819, -0.794498, -12.9047 )
+
 [connection signal="timeout" from="OuchTimer" to="." method="_on_OuchTimer_timeout"]

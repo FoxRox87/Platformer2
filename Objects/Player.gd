@@ -20,7 +20,6 @@ func _ready():
 		$AnimatedSprite.set_modulate(playerColor)
 
 func _physics_process(delta: float) -> void:
-	print(Input.is_action_pressed("move_right%d" % playerId))
 	if Input.is_action_pressed("move_right%d" % playerId) and velocity.x < max_speed and is_on_floor():
 		velocity.x += acceleration
 	if is_on_floor() and velocity.x > 0:

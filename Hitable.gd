@@ -15,7 +15,9 @@ func _ready():
 func hit(damage: int):
 	if hp > 0:
 		hp -= damage
-		
+	else:
+		hp = 0
+	$BloodFountain.set_emitting(true)		
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
