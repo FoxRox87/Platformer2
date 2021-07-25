@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-#export var playerID := 0
-#export var move_speed := 100
 export var gravity := 2000
 export var jump_speed := 500
 export var max_speed := 200
@@ -9,79 +7,39 @@ export var acceleration := 100
 export var deacceleration := 50
 export var push_back := Vector2 (500,-250)
 
+export var playerId := 0
+
 var velocity := Vector2.ZERO
-var rDirection = true
+var lDirection = true
 var push = true
+export var playerColor := Color(0,0,1)
 
-
-
-	
+func _ready():
+		transform *= Transform2D.FLIP_X
+		$AnimatedSprite.set_modulate(playerColor)
 
 func _physics_process(delta: float) -> void:
-
-#%d"%playerID
-	if Input.is_action_pressed("move_right") and velocity.x < max_speed and is_on_floor():
+	print(Input.is_action_pressed("move_right%d" % playerId))
+	if Input.is_action_pressed("move_right%d" % playerId) and velocity.x < max_speed and is_on_floor():
 		velocity.x += acceleration
 	if is_on_floor() and velocity.x > 0:
 		velocity.x -= deacceleration
-				
-	if Input.is_action_pressed("move_left") and velocity.x > -max_speed and is_on_floor():		
+		
+	if Input.is_action_pressed("move_left%d" % playerId) and velocity.x > -max_speed and is_on_floor():		
 		velocity.x -= acceleration
 	if is_on_floor() and velocity.x < 0:
 		velocity.x += deacceleration
 
-#	print(velocity.x)
-
 	velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump%d" % playerId):
 		if is_on_floor():
 			velocity.y = -jump_speed # negative Y is up in Godot
 			
 	velocity = move_and_slide(velocity, Vector2.UP)
 
-
-
 func _process(delta: float) -> void:
 		change_animation()
-
-func change_animation() -> void:
-		
-	
-	if velocity.y < 0:
-		$AnimatedSprite.play("jump")
-	else:
-		if velocity.x != 0:
-			$AnimatedSprite.play("walk")
-		else:
-			$AnimatedSprite.play("idle")
-			
-	if Input.is_action_just_pressed("move_right") and rDirection == false :
-		transform *= Transform2D.FLIP_X
-		rDirection = true
-
-	if Input.is_action_just_pressed("move_left") and rDirection == true :
-		transform *= Transform2D.FLIP_X
-		rDirection = false
-
-
-
-func _on_WeaponArea_area_entered(area) -> void:
-	
-	if push == true and rDirection == true and area.is_in_group("Weapon"):
-		velocity.x -= push_back.x/2
-		velocity.y += push_back.y/2
-			
-	elif push == true and rDirection == false and area.is_in_group("Weapon"):
-		velocity.x += push_back.x/2
-		velocity.y += push_back.y/2
-		
-func _on_WeaponArea_body_entered(body):
-
-	if push == true and body.name == "Player2" and rDirection == false:
-		body.bounce_left()
-	if push == true and body.name == "Player2" and rDirection == true:
-		body.bounce_right()
 
 func bounce_left():
 	if push == true:
@@ -92,20 +50,58 @@ func bounce_right():
 		velocity.x += push_back.x
 		velocity.y += push_back.y
 
-#	print(velocity)
-#
+#	elif push == true and lDirection == false:
+#		velocity.x -= push_back.x
+#		velocity.y += push_back.y
 	
-	#func _on_WeaponArea_body_entered(body) -> void:
+func change_animation():
+
+	if velocity.y < 0:
+		$AnimatedSprite.play("jump")
+	else:
+		if velocity.x != 0:
+			$AnimatedSprite.play("walk")
+		else:
+			$AnimatedSprite.play("idle")
+			
+			
+	if Input.is_action_just_pressed("move_left%d" % playerId) and lDirection == false:
+		transform *= Transform2D.FLIP_X
+		lDirection = true
+		
+	if Input.is_action_just_pressed("move_right%d" % playerId) and lDirection == true:
+		transform *= Transform2D.FLIP_X
+		lDirection = false
+
+func _on_WeaponArea_body_entered(body):
+	if push == true and body.is_in_group("player") and lDirection == false:
+		body.bounce_right()
+	if push == true and body.is_in_group("player") and lDirection == true:
+		body.bounce_left()
+
+#func _on_WeaponArea_area_entered(area) -> void:
 #
-#	if body.name == "Player2":
+#	if push == true and lDirection == true and area.is_in_group("Weapon"):
+#		velocity.x += push_back.x
+#		velocity.y += push_back.y
+#
+#	elif push == true and lDirection == false and area.is_in_group("Weapon"):
+#		velocity.x -= push_back.x
+#		velocity.y += push_back.y
+
+#func _on_WeaponArea_body_entered(body):
+#
+#	if body.name == "Player":
 #		get_tree().paused = true
-#		print("Player 1 wins bitches")
-	
-#	if Input.is_action_just_pressed("change_stance") and push == true:
-#		push = false
+#		print("Player 2 wins bitches")
+#func _on_WeaponArea_body_entered(body) -> void:
 #
-#	if Input.is_action_just_pressed("change_stance") and push == false:
-#		push = true		
-#FUNKTIONIERT NOCH NICHT
-
-
+#	if lDirection == true and Input.is_action_pressed("push"):
+#			velocity += push_back
+#	elif lDirection == false and Input.is_action_pressed("push"):
+#			velocity -= push_back
+#
+#		var impulse = get_transform().translated(-get_transform().origin) * push_back
+#		velocity = -impulse
+##		velocity += push_back
+			
