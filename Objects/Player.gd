@@ -42,12 +42,12 @@ func _process(delta: float) -> void:
 		change_animation()
 
 func bounce_left():
-	velocity.x -= push_back.x
-	velocity.y += push_back.y
+	velocity.x = -push_back.x
+	velocity.y = push_back.y
 	
 func bounce_right():
-	velocity.x += push_back.x
-	velocity.y += push_back.y
+	velocity.x = push_back.x
+	velocity.y = push_back.y
 
 #	elif push == true and lDirection == false:
 #		velocity.x -= push_back.x
@@ -73,11 +73,15 @@ func change_animation():
 		lDirection = false
 
 func _on_WeaponArea_body_entered(body):
+	if body == self:
+		return
+		
 	if body.is_in_group("player"):
-		if lDirection == false:
-			body.bounce_right()
-		if lDirection == true:
+		print (lDirection)
+		if lDirection:
 			body.bounce_left()
+		else:
+			body.bounce_right()
 
 #func _on_WeaponArea_area_entered(area) -> void:
 #
@@ -105,3 +109,7 @@ func _on_WeaponArea_body_entered(body):
 #		velocity = -impulse
 ##		velocity += push_back
 			
+
+
+
+

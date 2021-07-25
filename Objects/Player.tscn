@@ -56,12 +56,15 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 1.30526, 6.98777 )
+extents = Vector2( 1.30526, 5.68664 )
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 4.005, 7 )
+extents = Vector2( 3.44462, 6.48124 )
 
-[node name="Player" instance=ExtResource( 4 )]
+[node name="Player" groups=[
+"player",
+] instance=ExtResource( 4 )]
+collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
@@ -72,7 +75,7 @@ frame = 1
 playing = true
 
 [node name="WeaponSprite" type="Sprite" parent="." index="2"]
-position = Vector2( 3.91939, 1.5631 )
+position = Vector2( 3.85317, 1.5631 )
 texture = ExtResource( 3 )
 
 [node name="WeaponArea" type="Area2D" parent="." index="3" groups=[
@@ -81,9 +84,11 @@ texture = ExtResource( 3 )
 position = Vector2( 3.91939, 2.68878 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponArea" index="0"]
-position = Vector2( 3.76563, -1.53255 )
+position = Vector2( 3.49807, -1.61498 )
 shape = SubResource( 10 )
 
 [node name="CollisionPlayer" type="CollisionShape2D" parent="." index="4"]
 position = Vector2( -1.32673, 1.15623 )
 shape = SubResource( 11 )
+
+[connection signal="body_entered" from="WeaponArea" to="." method="_on_WeaponArea_body_entered"]
