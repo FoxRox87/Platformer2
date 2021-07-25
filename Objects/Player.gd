@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends "../Hitable.gd"
 
 export var gravity := 2000
 export var jump_speed := 500
@@ -6,6 +6,7 @@ export var max_speed := 200
 export var acceleration := 100
 export var deacceleration := 50
 export var push_back := Vector2 (500,-250)
+
 
 export var playerId := 0
 
