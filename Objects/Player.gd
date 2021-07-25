@@ -78,14 +78,20 @@ func _on_WeaponArea_area_entered(area) -> void:
 		
 func _on_WeaponArea_body_entered(body):
 
-	if push == true and rDirection == true and body.name == "Player2":
-		body.bounce()
-		
-	elif push == true and rDirection == false and body.name == "Player2":
+	if push == true and body.name == "Player2" and rDirection == false:
+		body.bounce_left()
+	if push == true and body.name == "Player2" and rDirection == true:
+		body.bounce_right()
 
-			velocity.x += push_back.x
-			velocity.y += push_back.y
-		
+func bounce_left():
+	if push == true:
+		velocity.x -= push_back.x
+		velocity.y += push_back.y
+func bounce_right():
+	if push == true:
+		velocity.x += push_back.x
+		velocity.y += push_back.y
+
 #	print(velocity)
 #
 	

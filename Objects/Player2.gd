@@ -38,13 +38,18 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 		change_animation()
 
-func bounce():
-	if push == true and lDirection == true:
-		velocity.x += push_back.x
-		velocity.y += push_back.y
-	elif push == true and lDirection == false:
+func bounce_left():
+	if push == true:
 		velocity.x -= push_back.x
 		velocity.y += push_back.y
+func bounce_right():
+	if push == true:
+		velocity.x += push_back.x
+		velocity.y += push_back.y
+
+#	elif push == true and lDirection == false:
+#		velocity.x -= push_back.x
+#		velocity.y += push_back.y
 	
 func change_animation():
 
@@ -64,7 +69,14 @@ func change_animation():
 	if Input.is_action_just_pressed("move_right2") and lDirection == true:
 		transform *= Transform2D.FLIP_X
 		lDirection = false
-	
+
+func _on_WeaponArea_body_entered(body):
+
+	if push == true and body.name == "Player" and lDirection == false:
+		body.bounce_right()
+	if push == true and body.name == "Player" and lDirection == true:
+		body.bounce_left()
+
 #func _on_WeaponArea_area_entered(area) -> void:
 #
 #	if push == true and lDirection == true and area.is_in_group("Weapon"):

@@ -55,7 +55,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 1.30526, 2.50117 )
+extents = Vector2( 1.30526, 6.98777 )
 
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 4.005, 7 )
@@ -67,6 +67,7 @@ script = ExtResource( 2 )
 position = Vector2( -0.314981, 0 )
 frames = SubResource( 9 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="WeaponSprite" type="Sprite" parent="."]
