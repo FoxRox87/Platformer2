@@ -250,6 +250,7 @@ position = Vector2( 240, 128 )
 
 [node name="Player2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 265.479, 195.979 )
+aiControlled = true
 playerId = 1
 playerColor = Color( 1, 0, 0, 1 )
 
