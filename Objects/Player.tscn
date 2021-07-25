@@ -56,17 +56,16 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 1.30526, 6.98777 )
+extents = Vector2( 1.30526, 5.68664 )
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 4.005, 7 )
+extents = Vector2( 3.44462, 6.48124 )
 
 [node name="Player" groups=[
 "player",
 ] instance=ExtResource( 4 )]
 collision_layer = 2
 script = ExtResource( 2 )
-push_back = Vector2( 500, -550 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
 position = Vector2( -0.314981, 0 )

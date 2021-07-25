@@ -1,19 +1,22 @@
 extends "../Hitable.gd"
 
-export var gravity := 2000
-export var jump_speed := 500
+export var gravity := 1000
+export var jump_speed := 300
 export var max_speed := 200
-export var acceleration := 500
+export var acceleration := 300
 
-export var resistance := 200
+export var resistance := 50
 
 export var deacceleration := 50
 export var aiControlled := false
 
-export var push_back := Vector2 (50,-50)
+export var push_back := Vector2 (250,-150)
 
 
 export var playerId := 0
+
+var maxJumps := 3
+var jumps := 2
 
 var velocity := Vector2.ZERO
 var lDirection = true
@@ -24,11 +27,15 @@ func _ready():
 		transform *= Transform2D.FLIP_X
 		$AnimatedSprite.set_modulate(playerColor)
 		if aiControlled:
+			transform *= Transform2D.FLIP_X
 			$AITimer.start()
 
 func _physics_process(delta: float) -> void:
 	if hp == 0:
 		return
+	if is_on_floor():
+		jumps = maxJumps
+		
 	
 	if Input.is_action_pressed("move_right%d" % playerId) and velocity.x < max_speed:
 		velocity.x += acceleration *delta
@@ -40,11 +47,11 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() and velocity.x < 0:
 		velocity.x += resistance *delta
 
-	if aiControlled and is_on_floor():
+	if aiControlled:
 		if lDirection and velocity.x < max_speed:
-			velocity.x += acceleration
+			velocity.x += acceleration*delta
 		if not lDirection and velocity.x > -max_speed:
-			velocity.x -=acceleration
+			velocity.x -=acceleration*delta
 		var r = rand_range(0, 50)
 		if r < 1.0 and is_on_floor():
 			velocity.y = -jump_speed # negative Y is up in Godot
@@ -54,15 +61,17 @@ func _physics_process(delta: float) -> void:
 
 	velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed("jump%d" % playerId):
+	if Input.is_action_just_pressed("jump%d" % playerId) and jumps > 0:
+		jumps -= 1
+		print (jumps)
 		if is_on_floor():
-			velocity.y = -jump_speed # negative Y is up in Godot
+			velocity.y = -jump_speed # negative Y is up in Godo
 		elif Input.is_action_just_pressed("jump%d" % playerId) and lDirection == true:
-			velocity.x = -200
-			velocity.y = -200
+			velocity.x = -100
+			velocity.y = -300
 		elif Input.is_action_just_pressed("jump%d" % playerId) and lDirection == false:
-			velocity.x = 200
-			velocity.y = -200
+			velocity.x = 100
+			velocity.y = -300
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 func _process(delta: float) -> void:
@@ -70,6 +79,7 @@ func _process(delta: float) -> void:
 
 func bounce(impuls):
 	velocity = impuls
+	print (impuls)
 	
 #	elif push == true and lDirection == false:
 #		velocity.x -= push_back.x
@@ -112,4 +122,6 @@ func die():
 func _on_AITimer_timeout():
 	var r = rand_range(0, 2)
 	if r < 1.0:
-		lDirection =  !lDirection # Replace with function body.
+		lDirection =  !lDirection
+		transform *= Transform2D.FLIP_X
+		 # Replace with function body.
