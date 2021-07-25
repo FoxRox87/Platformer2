@@ -254,22 +254,22 @@ playerId = 1
 playerColor = Color( 1, 0, 0, 1 )
 
 [node name="SawBlade" parent="." instance=ExtResource( 5 )]
-position = Vector2( 132.137, 128.274 )
+position = Vector2( -58.7814, 161.508 )
 
 [node name="SawBlade3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 284.873, 79.4837 )
+position = Vector2( 284.165, 73.8269 )
 
 [node name="SawBlade4" parent="." instance=ExtResource( 5 )]
 position = Vector2( 384.575, 75.2411 )
 
 [node name="SawBlade5" parent="." instance=ExtResource( 5 )]
-position = Vector2( 70.6192, 183.428 )
+position = Vector2( 74.1547, 157.973 )
 
 [node name="SawBlade6" parent="." instance=ExtResource( 5 )]
 position = Vector2( 73.4476, 70.9985 )
 
 [node name="SawBlade7" parent="." instance=ExtResource( 5 )]
-position = Vector2( 378.918, 175.65 )
+position = Vector2( 386.696, 165.044 )
 
 [node name="SawBlade2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 196.484, 75.9482 )
+position = Vector2( 166.786, 73.1198 )

@@ -4,7 +4,7 @@ export var gravity := 2000
 export var jump_speed := 500
 export var max_speed := 200
 export var acceleration := 500
-export var deacceleration := 50
+export var resistance := 200
 export var push_back := Vector2 (50,-50)
 
 
@@ -26,19 +26,24 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("move_right%d" % playerId) and velocity.x < max_speed:
 		velocity.x += acceleration *delta
 	if is_on_floor() and velocity.x > 0:
-		velocity.x -= deacceleration *delta
+		velocity.x -= resistance *delta
 		
 	if Input.is_action_pressed("move_left%d" % playerId) and velocity.x > -max_speed:		
 		velocity.x -= acceleration *delta
 	if is_on_floor() and velocity.x < 0:
-		velocity.x += deacceleration *delta
+		velocity.x += resistance *delta
 
 	velocity.y += gravity * delta
 
 	if Input.is_action_just_pressed("jump%d" % playerId):
 		if is_on_floor():
 			velocity.y = -jump_speed # negative Y is up in Godot
-			
+		elif Input.is_action_just_pressed("jump%d" % playerId) and lDirection == true:
+			velocity.x = -200
+			velocity.y = -200
+		elif Input.is_action_just_pressed("jump%d" % playerId) and lDirection == false:
+			velocity.x = 200
+			velocity.y = -200
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 func _process(delta: float) -> void:
