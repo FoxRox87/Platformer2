@@ -6,6 +6,7 @@ export var max_speed := 200
 export var acceleration := 100
 export var deacceleration := 50
 export var push_back := Vector2 (500,-250)
+export var aiControlled := false
 
 
 export var playerId := 0
@@ -18,6 +19,8 @@ export var playerColor := Color(0,0,1)
 func _ready():
 		transform *= Transform2D.FLIP_X
 		$AnimatedSprite.set_modulate(playerColor)
+		if aiControlled:
+			$AITimer.start()
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("move_right%d" % playerId) and velocity.x < max_speed and is_on_floor():
@@ -29,6 +32,18 @@ func _physics_process(delta: float) -> void:
 		velocity.x -= acceleration
 	if is_on_floor() and velocity.x < 0:
 		velocity.x += deacceleration
+
+	if aiControlled and is_on_floor():
+		if lDirection and velocity.x < max_speed:
+			velocity.x += acceleration
+		if not lDirection and velocity.x > -max_speed:
+			velocity.x -=acceleration
+		var r = rand_range(0, 50)
+		if r < 1.0 and is_on_floor():
+			velocity.y = -jump_speed # negative Y is up in Godot
+
+			
+	
 
 	velocity.y += gravity * delta
 
@@ -83,33 +98,8 @@ func _on_WeaponArea_body_entered(body):
 		else:
 			body.bounce_right()
 
-#func _on_WeaponArea_area_entered(area) -> void:
-#
-#	if push == true and lDirection == true and area.is_in_group("Weapon"):
-#		velocity.x += push_back.x
-#		velocity.y += push_back.y
-#
-#	elif push == true and lDirection == false and area.is_in_group("Weapon"):
-#		velocity.x -= push_back.x
-#		velocity.y += push_back.y
 
-#func _on_WeaponArea_body_entered(body):
-#
-#	if body.name == "Player":
-#		get_tree().paused = true
-#		print("Player 2 wins bitches")
-#func _on_WeaponArea_body_entered(body) -> void:
-#
-#	if lDirection == true and Input.is_action_pressed("push"):
-#			velocity += push_back
-#	elif lDirection == false and Input.is_action_pressed("push"):
-#			velocity -= push_back
-#
-#		var impulse = get_transform().translated(-get_transform().origin) * push_back
-#		velocity = -impulse
-##		velocity += push_back
-			
-
-
-
-
+func _on_AITimer_timeout():
+	var r = rand_range(0, 2)
+	if r < 1.0:
+		lDirection =  !lDirection # Replace with function body.
